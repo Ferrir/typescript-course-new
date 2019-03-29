@@ -17,7 +17,7 @@ export class Server {
       }
    }
 
-   private async sysncDataBase() {
+   private async syncDB() {
       try {
          const syncData = await this.db.sync()
          this.dbSyncHandler(syncData)
@@ -34,14 +34,36 @@ export class Server {
    }
 
    private dbSyncErrorHandler(error) {
-      console.log(`Não foi possível conectar a database ${ error }`)
+      console.log(`Can't connect to a database because ${ error }`)
+      this.upServer()
    }
 
    private upServer() {
       http
          .createServer(this.express)
          .listen(serverPort)
-         .on('listening', this.onServerUP.bind(this))
-         .on('error', () => {})
+         .on('listening', this.onServerUp.bind(this))
+         .on('error', this.onServerStartupError.bind(this))
+   }
+
+   private onServerUp(port: number) {
+      console.log(`Server  is running on port ${ port }`)
+   }
+
+   private onServerStartupError(error: NodeJS.ErrnoException) {
+      console.log(`ERROR ${ error }`)
+   }
+
+   private logDbConnection( { models, options, config }) {
+      const { dialect, host } = options
+      const { database, port } = config
+
+      if(dialect && host && database && port && models) {
+         console.log(`Database Dialect ${ dialect }`)
+         console.log(`Database Host ${ host }`)
+         console.log(`Database Name ${ database }`)
+         console.log(`Database Port ${ port }`)
+         console.log(`Created Tables ${ models }`)
+      }
    }
 }
