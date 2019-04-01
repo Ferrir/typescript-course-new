@@ -1,6 +1,7 @@
 import { Server } from './src/server/server'
-const { sequelize } = require('./src/entities');
+//const { sequelize } = require('./src/entities');
 
 (function() {
-   new Server(sequelize)
-})
+   //new Server(sequelize)
+   new Server()
+})()

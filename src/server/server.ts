@@ -8,13 +8,15 @@ export class Server {
    private express
 
    constructor() {
-      if(dbConnector) {
-         if(dbConnector) {
-            this.db = dbConnector
-            this.express = new CoreModule().express
-            this.syncDB()
-         }
-      }
+      this.express = new CoreModule().express
+      this.upServer() 
+      // if(dbConnector) {
+      //    if(dbConnector) {
+      //       this.db = dbConnector
+      //       this.express = new CoreModule().express
+      //       this.syncDB()
+      //    }
+      // }
    }
 
    private async syncDB() {
@@ -47,7 +49,7 @@ export class Server {
    }
 
    private onServerUp(port: number) {
-      console.log(`Server  is running on port ${ port }`)
+      console.log(`Server is running on port ${ port }`)
    }
 
    private onServerStartupError(error: NodeJS.ErrnoException) {
